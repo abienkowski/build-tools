@@ -1,0 +1,17 @@
+# -- 
+# This will create a data containers with all the essentials build tools
+# in order to support the CI/CD process orchestrated by Jenkins.
+# -- alpine-node
+FROM mhart/alpine-node:0.12
+# -- set environment variables
+#ENV OPENDJ_VERSION=2.6.2 \
+# -- upgrade and remove all cache
+RUN apk add --no-cache curl && \
+    apk add --no-cache bash && \
+    curl -SL https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz | \
+    tar -zxv -C /usr/local/lib && \
+    ln -sn ../lib/heroku/bin/heroku /usr/local/bin/heroku
+# -- expose the root file system in order to be able to run tool binaries
+VOLUME ["/usr/local/"]
+# -- entry point would be bash for data volume
+CMD  ["/bin/bash"]

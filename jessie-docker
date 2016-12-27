@@ -1,0 +1,16 @@
+# --
+FROM debian:jessie-slim
+# -- set environment variables
+# -- upgrade and remove all cache
+RUN apt-get update && \
+    apt-get install -y curl && \
+    apt-get clean && \
+    curl -SL https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz | \
+    tar -zxv -C /usr/local/lib && \
+    ln -sn ../lib/heroku/bin/heroku /usr/local/bin/heroku && \
+    curl -SL https://nodejs.org/download/release/v0.12.18/node-v0.12.18-linux-x64.tar.gz | \
+    tar -zxv -C /usr/local/ --strip-components 1
+# -- expose the root file system in order to be able to run tool binaries
+VOLUME ["/usr/local/"]
+# -- entry point would be bash for data volume
+CMD  ["/bin/bash"]
