@@ -10,7 +10,10 @@ RUN apt-get update && \
     ln -sn ../lib/heroku/bin/heroku /usr/local/bin/heroku && \
     curl -SL https://nodejs.org/download/release/v0.12.18/node-v0.12.18-linux-x64.tar.gz | \
     tar -zxv -C /usr/local/ --strip-components 1
+# -- change to jenkins user
+USER jenkins
+WORKDIR /home/jenkins
 # -- expose the root file system in order to be able to run tool binaries
-VOLUME ["/usr/local/"]
+VOLUME ["/home/jenkins/"]
 # -- entry point would be bash for data volume
 CMD  ["/bin/bash"]
