@@ -11,6 +11,8 @@ RUN apt-get update && \
     curl -SL https://nodejs.org/download/release/v0.12.18/node-v0.12.18-linux-x64.tar.gz | \
     tar -zxv -C /usr/local/ --strip-components 1
 # -- change to jenkins user
+RUN addgroup --gid 1000 jenkins && \
+    adduser --no-create-home --gid 1000 --uid 1000 --shell /bin/bash jenkins
 USER jenkins
 WORKDIR /home/jenkins
 # -- expose the root file system in order to be able to run tool binaries
