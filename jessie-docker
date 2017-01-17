@@ -1,18 +1,24 @@
 # --
 FROM debian:jessie-slim
 # -- set environment variables
-# -- upgrade and remove all cache
+# -- upgrade, install dependencies and remove all cache
+# -- -- bzip2 required for tar -j
+# -- -- libfontconfig required for phantomjs
 RUN apt-get update && \
-    apt-get install -y curl && \
-    apt-get clean && \
-    curl -SL https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz | \
+    apt-get install -y curl bzip2 libfontconfig && \
+    apt-get clean
+# -- install build tools
+RUN curl -SL https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz | \
     tar -zxv -C /usr/local/lib && \
     ln -sn ../lib/heroku/bin/heroku /usr/local/bin/heroku && \
     curl -SL https://nodejs.org/download/release/v0.12.18/node-v0.12.18-linux-x64.tar.gz | \
-    tar -zxv -C /usr/local/ --strip-components 1
+    tar -zxv -C /usr/local/ --strip-components 1 && \
+    curl -SL https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 | \
+    tar -jxv -C /usr/local/ && \
+    ln -sn /usr/local/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
 # -- change to jenkins user
 RUN addgroup --gid 1000 jenkins && \
-    adduser --no-create-home --gid 1000 --uid 1000 --shell /bin/bash jenkins
+    adduser --no-create-home --gid 1000 --uid 1000 --gecos "" --shell /bin/bash --disabled-password jenkins
 USER jenkins
 WORKDIR /home/jenkins
 # -- expose the root file system in order to be able to run tool binaries
