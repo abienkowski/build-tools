@@ -15,7 +15,10 @@ RUN curl -SL https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.ta
     tar -zxv -C /usr/local/ --strip-components 1 && \
     curl -SL https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.8-linux-x86_64.tar.bz2 | \
     tar -jxv -C /usr/local/ && \
-    ln -sn /usr/local/phantomjs-1.9.8-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
+    ln -sn /usr/local/phantomjs-1.9.8-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
+    npm install -g grunt-cli && \
+    npm install -g bower && \
+    npm install -g nsp
 ADD build_node.sh /usr/local/bin/
 ADD build_node_prerelease.sh /usr/local/bin/
 ADD build_node_release.sh /usr/local/bin/

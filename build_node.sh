@@ -16,7 +16,6 @@ if [ -d $WORKSPACE ]; then
     # -- setting private npm registry
     echo "...setting private registry to $NPM_REGISTRY"
     npm config set registry $NPM_REGISTRY
-    echo "...running npm install"
     # -- install node modules locally to run tests
     echo "...running npm install"
     npm install
