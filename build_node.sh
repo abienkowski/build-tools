@@ -2,7 +2,7 @@
 # -- pass in project name as the first parameter
 PROJECT=$1
 WORKSPACE="jobs/${PROJECT}/workspace"
-if [ -z $WORKSPACE ];
+if [ -d $WORKSPACE ]; then
     echo "Executing build on $PROJECT project..."
     # -- change to the project workspace directory
     echo "...found workspace $WORKSPACE directory"
@@ -13,6 +13,10 @@ if [ -z $WORKSPACE ];
     mkdir -p $LOCAL_PROJECT_NODE_MODULES
     echo "...creating a link in workspace to temp directory"
     ln -snf $LOCAL_PROJECT_NODE_MODULES node_modules
+    # -- setting private npm registry
+    echo "...setting private registry to $NPM_REGISTRY"
+    npm config set registry $NPM_REGISTRY
+    echo "...running npm install"
     # -- install node modules locally to run tests
     echo "...running npm install"
     npm install
@@ -21,7 +25,7 @@ if [ -z $WORKSPACE ];
     grunt clean
     # -- install client side dependencies
     echo "...checking for bower.json"
-    if [ -z bower.json ];
+    if [ -z bower.json ]; then
         echo "...found bower.json and running bower cache clean"
         bower cache clean
         echo "...running bower install"
@@ -35,6 +39,6 @@ if [ -z $WORKSPACE ];
     echo "...running grunt qmreports"
     grunt qmreports --build-number=${BUILD_NUMBER}
 else
-    echo "Sorry, I could not find the give workspace directory; $WORKSPACE."
+    echo "Sorry, I could not find the give workspace '$WORKSPACE' directory for '$PROJECT' project."
     exit 1
 fi
