@@ -1,4 +1,6 @@
 #!/bin/bash
+# -- set exit on first error flag
+set -e
 # -- pass in project name as the first parameter
 PROJECT=$1
 WORKSPACE="jobs/${PROJECT}/workspace"
