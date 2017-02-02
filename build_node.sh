@@ -8,11 +8,19 @@ if [ -d $WORKSPACE ]; then
     echo "...found workspace $WORKSPACE directory"
     cd $WORKSPACE
     # -- create node_modules in a local tmp folder specific for the project and link to workspace
-    LOCAL_PROJECT_NODE_MODULES="/tmp/${PROJECT}-node_modules"
-    echo "...creating temp directory for node_modules; $LOCAL_PROJECT_NODE_MODULES"
-    mkdir -p $LOCAL_PROJECT_NODE_MODULES
-    echo "...creating a link in workspace to temp directory"
-    ln -snf $LOCAL_PROJECT_NODE_MODULES node_modules
+# -- TODO: investigate a better workaround or perhaps a newer version of npm or node fixes this already.
+# The problem is that when node_modules in the project directory is a link to a directory, as shown bellow
+# in the commented code, when calling require on some packages yields an modules not found error.
+# Leaving this as a real directory will cause data to be stored on the EFS volume and cause additional
+# traffic when files are sync between machines. This is not needed and the idea was to to keep this directroy
+# transient using local storage.
+# -- --
+#    LOCAL_PROJECT_NODE_MODULES="/tmp/${PROJECT}-node_modules"
+#    echo "...creating temp directory for node_modules; $LOCAL_PROJECT_NODE_MODULES"
+#    mkdir -p $LOCAL_PROJECT_NODE_MODULES
+#    echo "...creating a link in workspace to temp directory"
+#    ln -snf $LOCAL_PROJECT_NODE_MODULES node_modules
+# -- --
     # -- setting private npm registry
     echo "...setting private registry to $NPM_REGISTRY"
     npm config set registry $NPM_REGISTRY
