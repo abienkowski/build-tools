@@ -3,7 +3,8 @@
 set -e
 # -- pass in project name as the first parameter
 PROJECT=$1
-WORKSPACE="jobs/${PROJECT}/workspace"
+# -- WORKSPACE is part of the environment and can be passed to docker using -e
+WORKSPACE="$WORKSPACE"
 if [ -d $WORKSPACE ]; then
     echo "Executing build on $PROJECT project..."
     # -- change to the project workspace directory
