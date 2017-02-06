@@ -41,9 +41,9 @@ if [ -d $WORKSPACE ]; then
         bower install
     fi
     # -- build client side library
-    # NOTE: currently default task is test
-    echo "...running grunt"
-    grunt
+    # NOTE: each grunt task should be explicit; not default
+#echo "...running grunt"
+#grunt
     # -- run QM reports, xunit and coverage reports
     echo "...running grunt qmreports"
     grunt qmreports --build-number=${BUILD_NUMBER}
