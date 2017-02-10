@@ -57,6 +57,6 @@ if [ -d $WORKSPACE ]; then
     echo "...running grunt qmreports"
     grunt qmreports --build-number=${BUILD_NUMBER}
 else
-    echo "Sorry, I could not find the give workspace '$WORKSPACE' directory for '$PROJECT' project."
+    echo "Sorry, I could not find the given workspace '$WORKSPACE' directory for '$PROJECT' project."
     exit 1
 fi

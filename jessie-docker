@@ -5,7 +5,7 @@ FROM debian:jessie-slim
 # -- -- bzip2 required for tar -j
 # -- -- libfontconfig required for phantomjs
 RUN apt-get update && \
-    apt-get install -y curl bzip2 libfontconfig && \
+    apt-get install -y curl bzip2 libfontconfig jq && \
     apt-get clean
 # -- install build tools
 RUN curl -SL https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz | \
@@ -20,8 +20,8 @@ RUN curl -SL https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.ta
     npm install -g bower && \
     npm install -g nsp
 ADD build_node.sh /usr/local/bin/
-ADD build_node_prerelease.sh /usr/local/bin/
-ADD build_node_release.sh /usr/local/bin/
+ADD build_node-prerelease.sh /usr/local/bin/
+ADD build_node-release.sh /usr/local/bin/
 # -- change to jenkins user
 RUN addgroup --gid 1000 jenkins && \
     adduser --no-create-home --gid 1000 --uid 1000 --gecos "" --shell /bin/bash --disabled-password jenkins
